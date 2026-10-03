@@ -947,6 +947,132 @@ a {
   font-size: 8px;
   font-style: normal;
 }
+.email-action {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 2px 20px 14px;
+}
+.email-action__button {
+  display: flex;
+  height: 34px;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 13px;
+  color: white;
+  font-size: 9px;
+  font-weight: 700;
+  border: 0;
+  border-radius: 7px;
+  background: #566ce5;
+  box-shadow: 0 5px 12px #5268e82b;
+  cursor: pointer;
+}
+.email-action__button:hover {
+  background: #475bd2;
+}
+.email-status {
+  margin: 0;
+  color: #23815e;
+  font-size: 8px;
+  line-height: 1.5;
+}
+.email-status.is-error {
+  color: #dc5968;
+}
+.email-composer {
+  margin: 2px 20px 14px;
+  overflow: hidden;
+  border: 1px solid #d9def4;
+  border-radius: 9px;
+  background: #fbfbff;
+  box-shadow: 0 6px 18px #5268e80f;
+}
+.email-composer__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 11px;
+  border-bottom: 1px solid #e4e7f3;
+}
+.email-composer__heading > div {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 9px;
+}
+.email-composer__icon {
+  display: grid;
+  width: 29px;
+  height: 29px;
+  flex: none;
+  place-items: center;
+  color: #5a6fdf;
+  border-radius: 7px;
+  background: #eef0ff;
+}
+.email-composer__heading h3 {
+  margin: 0 0 3px;
+  font-size: 10px;
+}
+.email-composer__heading p {
+  overflow: hidden;
+  margin: 0;
+  color: #8a94a6;
+  font-size: 8px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.email-composer form {
+  padding: 10px 11px 11px;
+}
+.email-composer label {
+  display: block;
+  margin: 0 0 5px;
+  color: #6f7a8d;
+  font-size: 8px;
+  font-weight: 700;
+}
+.email-composer input,
+.email-composer textarea {
+  display: block;
+  width: 100%;
+  padding: 8px 9px;
+  color: #344056;
+  font-size: 9px;
+  line-height: 1.55;
+  border: 1px solid #dfe3ea;
+  border-radius: 6px;
+  outline: 0;
+  background: white;
+  transition: 0.18s ease;
+}
+.email-composer input {
+  height: 32px;
+  margin-bottom: 9px;
+}
+.email-composer textarea {
+  min-height: 76px;
+  resize: vertical;
+}
+.email-composer input:focus,
+.email-composer textarea:focus {
+  border-color: #8798ee;
+  box-shadow: 0 0 0 3px #5268e814;
+}
+.email-composer input::placeholder,
+.email-composer textarea::placeholder {
+  color: #adb5c2;
+}
+.email-composer__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 9px;
+}
 .customer-meta {
   display: grid;
   grid-template-columns: 0.65fr 1fr 1fr;

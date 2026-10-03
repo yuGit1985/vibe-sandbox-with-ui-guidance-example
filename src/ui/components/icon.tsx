@@ -4,6 +4,7 @@ type IconName =
   | "building"
   | "calendar"
   | "chevron"
+  | "close"
   | "dashboard"
   | "mail"
   | "lock"
@@ -13,6 +14,7 @@ type IconName =
   | "people"
   | "phone"
   | "search"
+  | "send"
   | "settings"
   | "sparkle";
 
@@ -29,6 +31,7 @@ const paths: Record<IconName, React.ReactNode> = {
     <path d="M6 2v4m12-4v4M3 9h18M5 4h14a2 2 0 0 1 2 2v15H3V6a2 2 0 0 1 2-2Z" />
   ),
   chevron: <path d="m9 18 6-6-6-6" />,
+  close: <path d="m6 6 12 12M18 6 6 18" />,
   dashboard: (
     <path d="M4 13h6V4H4v9Zm0 7h6v-4H4v4Zm10 0h6v-9h-6v9Zm0-12h6V4h-6v4Z" />
   ),
@@ -48,6 +51,7 @@ const paths: Record<IconName, React.ReactNode> = {
     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.33 1.78.62 2.63a2 2 0 0 1-.45 2.11L8 9.73a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.85.3 1.73.5 2.63.62A2 2 0 0 1 22 16.92Z" />
   ),
   search: <path d="m21 21-4.35-4.35M19 11a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z" />,
+  send: <path d="m22 2-7 20-4-9-9-4 20-7ZM11 13 22 2" />,
   settings: (
     <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm7.4-3.5a7.6 7.6 0 0 0-.1-1l2-1.6-2-3.4-2.5 1a8 8 0 0 0-1.7-1l-.4-2.7h-4L10.3 6a8 8 0 0 0-1.7 1L6.1 6 4.1 9.4l2 1.6a7.6 7.6 0 0 0 0 2l-2 1.6 2 3.4 2.5-1a8 8 0 0 0 1.7 1l.4 2.7h4l.4-2.7a8 8 0 0 0 1.7-1l2.5 1 2-3.4-2-1.6a7.6 7.6 0 0 0 .1-1Z" />
   ),

@@ -7,6 +7,7 @@ import type { Customer } from "@/ports/customer-repository";
 import { Avatar } from "@/ui/components/avatar";
 import { Icon } from "@/ui/components/icon";
 import { LogoutButton } from "@/ui/features/authentication/logout-button";
+import { CustomerEmailComposer } from "@/ui/features/customer-email/customer-email-composer";
 import { CustomerList } from "@/ui/features/customer-list/customer-list";
 import { CustomerNotes } from "@/ui/features/customer-notes/customer-notes";
 import { CustomerSearch } from "@/ui/features/customer-search/customer-search";
@@ -75,9 +76,11 @@ function Sidebar({ user }: { user: AuthenticatedUser }) {
 function CustomerDetail({
   customer,
   onAddNote,
+  onSendEmail,
 }: {
   customer: Customer;
   onAddNote: (body: string) => void;
+  onSendEmail: (subject: string, body: string) => void;
 }) {
   const statusLabel =
     customer.status === "active"
@@ -109,7 +112,7 @@ function CustomerDetail({
         </span>
       </div>
       <div className="contact-details">
-        <a href={`mailto:${customer.email}`}>
+        <div>
           <span>
             <Icon name="mail" size={18} />
           </span>
@@ -117,7 +120,7 @@ function CustomerDetail({
             <small>メール</small>
             <strong>{customer.email}</strong>
           </div>
-        </a>
+        </div>
         <a href={`tel:${customer.phone}`}>
           <span>
             <Icon name="phone" size={18} />
@@ -140,6 +143,12 @@ function CustomerDetail({
           </div>
         </div>
       </div>
+      <CustomerEmailComposer
+        key={customer.id}
+        recipientEmail={customer.email}
+        recipientName={customer.name}
+        onSend={onSendEmail}
+      />
       <div className="customer-meta">
         <div>
           <small>顧客ランク</small>
@@ -197,6 +206,11 @@ export function CustomerDirectoryScreen({
     if (!selectedId) return;
     controller.addNote(selectedId, body);
     setCustomers(controller.search(query));
+  };
+
+  const handleSendEmail = (subject: string, body: string) => {
+    if (!selectedId) return;
+    controller.sendEmail(selectedId, subject, body);
   };
 
   const activeCount = initialCustomers.filter(
@@ -311,6 +325,7 @@ export function CustomerDirectoryScreen({
               <CustomerDetail
                 customer={selectedCustomer}
                 onAddNote={handleAddNote}
+                onSendEmail={handleSendEmail}
               />
             ) : (
               <aside className="detail-panel detail-panel--empty">
