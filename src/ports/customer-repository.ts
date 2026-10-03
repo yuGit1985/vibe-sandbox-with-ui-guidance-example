@@ -26,8 +26,25 @@ export type Customer = {
   notes: CustomerNote[];
 };
 
+export type CustomerUpdate = Pick<
+  Customer,
+  | "name"
+  | "nameKana"
+  | "company"
+  | "department"
+  | "title"
+  | "email"
+  | "phone"
+  | "rank"
+  | "status"
+  | "lastContactAt"
+  | "tags"
+>;
+
 export interface CustomerRepository {
   findAll(): Customer[];
   findById(customerId: string): Customer | undefined;
+  update(customerId: string, details: CustomerUpdate): Customer;
+  delete(customerId: string): void;
   addNote(customerId: string, note: CustomerNote): Customer;
 }

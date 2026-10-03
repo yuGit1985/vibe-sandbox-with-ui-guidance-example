@@ -7,6 +7,7 @@ import type { Customer } from "@/ports/customer-repository";
 import { Avatar } from "@/ui/components/avatar";
 import { Icon } from "@/ui/components/icon";
 import { LogoutButton } from "@/ui/features/authentication/logout-button";
+import { CustomerActions } from "@/ui/features/customer-actions/customer-actions";
 import { CustomerEmailComposer } from "@/ui/features/customer-email/customer-email-composer";
 import { CustomerList } from "@/ui/features/customer-list/customer-list";
 import { CustomerNotes } from "@/ui/features/customer-notes/customer-notes";
@@ -25,7 +26,13 @@ const formatFullDate = (value: string) =>
     timeZone: "Asia/Tokyo",
   }).format(new Date(`${value}T00:00:00+09:00`));
 
-function Sidebar({ user }: { user: AuthenticatedUser }) {
+function Sidebar({
+  customerCount,
+  user,
+}: {
+  customerCount: number;
+  user: AuthenticatedUser;
+}) {
   return (
     <aside className="sidebar">
       <div className="brand">
@@ -45,7 +52,7 @@ function Sidebar({ user }: { user: AuthenticatedUser }) {
         </a>
         <a className="is-active" href="#customers" aria-current="page">
           <Icon name="people" />
-          顧客管理<span>6</span>
+          顧客管理<span>{customerCount}</span>
         </a>
         <a href="#companies">
           <Icon name="building" />
@@ -76,11 +83,17 @@ function Sidebar({ user }: { user: AuthenticatedUser }) {
 function CustomerDetail({
   customer,
   onAddNote,
+  onDelete,
   onSendEmail,
+  onUpdate,
 }: {
   customer: Customer;
   onAddNote: (body: string) => void;
+  onDelete: () => void;
   onSendEmail: (subject: string, body: string) => void;
+  onUpdate: (
+    details: Parameters<CustomerDirectoryController["update"]>[1],
+  ) => void;
 }) {
   const statusLabel =
     customer.status === "active"
@@ -92,9 +105,11 @@ function CustomerDetail({
     <aside className="detail-panel" aria-label={`${customer.name}の詳細`}>
       <div className="detail-panel__topbar">
         <span>顧客詳細</span>
-        <button className="icon-button" type="button" aria-label="その他の操作">
-          <Icon name="more" size={20} />
-        </button>
+        <CustomerActions
+          customer={customer}
+          onDelete={onDelete}
+          onUpdate={onUpdate}
+        />
       </div>
       <div className="profile-summary">
         <Avatar
@@ -190,6 +205,7 @@ export function CustomerDirectoryScreen({
 }: CustomerDirectoryScreenProps) {
   const initialCustomers = useMemo(() => controller.search(""), [controller]);
   const [query, setQuery] = useState("");
+  const [allCustomers, setAllCustomers] = useState(initialCustomers);
   const [customers, setCustomers] = useState(initialCustomers);
   const [selectedId, setSelectedId] = useState(initialCustomers[0]?.id);
   const selectedCustomer = selectedId ? controller.find(selectedId) : undefined;
@@ -208,21 +224,47 @@ export function CustomerDirectoryScreen({
     setCustomers(controller.search(query));
   };
 
+  const refreshCustomers = (preferredId?: string) => {
+    const all = controller.search("");
+    const results = controller.search(query);
+    setAllCustomers(all);
+    setCustomers(results);
+    setSelectedId(
+      preferredId && results.some(({ id }) => id === preferredId)
+        ? preferredId
+        : results[0]?.id,
+    );
+  };
+
+  const handleUpdate = (
+    details: Parameters<CustomerDirectoryController["update"]>[1],
+  ) => {
+    if (!selectedId) return;
+    controller.update(selectedId, details);
+    refreshCustomers(selectedId);
+  };
+
+  const handleDelete = () => {
+    if (!selectedId) return;
+    controller.delete(selectedId);
+    refreshCustomers();
+  };
+
   const handleSendEmail = (subject: string, body: string) => {
     if (!selectedId) return;
     controller.sendEmail(selectedId, subject, body);
   };
 
-  const activeCount = initialCustomers.filter(
+  const activeCount = allCustomers.filter(
     ({ status }) => status === "active",
   ).length;
-  const followUpCount = initialCustomers.filter(
+  const followUpCount = allCustomers.filter(
     ({ status }) => status === "follow-up",
   ).length;
 
   return (
     <div className="app-shell">
-      <Sidebar user={user} />
+      <Sidebar customerCount={allCustomers.length} user={user} />
       <div className="workspace">
         <header className="topbar">
           <div className="mobile-brand">
@@ -265,7 +307,7 @@ export function CustomerDirectoryScreen({
               <div>
                 <small>登録顧客</small>
                 <strong>
-                  {initialCustomers.length}
+                  {allCustomers.length}
                   <em>社</em>
                 </strong>
               </div>
@@ -325,7 +367,9 @@ export function CustomerDirectoryScreen({
               <CustomerDetail
                 customer={selectedCustomer}
                 onAddNote={handleAddNote}
+                onDelete={handleDelete}
                 onSendEmail={handleSendEmail}
+                onUpdate={handleUpdate}
               />
             ) : (
               <aside className="detail-panel detail-panel--empty">

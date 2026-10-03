@@ -6,6 +6,7 @@ type IconName =
   | "chevron"
   | "close"
   | "dashboard"
+  | "edit"
   | "mail"
   | "lock"
   | "logout"
@@ -16,7 +17,8 @@ type IconName =
   | "search"
   | "send"
   | "settings"
-  | "sparkle";
+  | "sparkle"
+  | "trash";
 
 type IconProps = {
   name: IconName;
@@ -34,6 +36,9 @@ const paths: Record<IconName, React.ReactNode> = {
   close: <path d="m6 6 12 12M18 6 6 18" />,
   dashboard: (
     <path d="M4 13h6V4H4v9Zm0 7h6v-4H4v4Zm10 0h6v-9h-6v9Zm0-12h6V4h-6v4Z" />
+  ),
+  edit: (
+    <path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4L16.5 3.5Z" />
   ),
   mail: <path d="M3 5h18v14H3V5Zm0 1 9 7 9-7" />,
   lock: <path d="M5 10h14v11H5V10Zm3 0V7a4 4 0 0 1 8 0v3m-4 4v3" />,
@@ -58,6 +63,7 @@ const paths: Record<IconName, React.ReactNode> = {
   sparkle: (
     <path d="m12 3 1.2 3.8L17 8l-3.8 1.2L12 13l-1.2-3.8L7 8l3.8-1.2L12 3Zm6 10 .8 2.2L21 16l-2.2.8L18 19l-.8-2.2L15 16l2.2-.8L18 13ZM5 13l.9 2.6L8.5 17l-2.6.9L5 20.5l-.9-2.6L1.5 17l2.6-1.4L5 13Z" />
   ),
+  trash: <path d="M3 6h18M8 6V4h8v2m3 0-1 15H6L5 6m4 4v7m6-7v7" />,
 };
 
 export function Icon({ name, size = 20 }: IconProps) {

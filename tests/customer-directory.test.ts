@@ -54,4 +54,61 @@ describe("CustomerDirectory", () => {
       }),
     ).toThrow("メモを入力してください。");
   });
+
+  it("顧客情報を編集できる", () => {
+    const directory = createDirectory();
+    const customer = directory.updateCustomer({
+      customerId: "customer-1",
+      name: "  山田 花子  ",
+      nameKana: " ヤマダ ハナコ ",
+      company: " 株式会社ブルーム ",
+      department: " 営業部 ",
+      title: " 課長 ",
+      email: " hanako.yamada@example.jp ",
+      phone: " 03-0000-0000 ",
+      rank: "A",
+      status: "follow-up",
+      lastContactAt: "2026-10-03",
+      tags: [" 重点顧客 ", "東京", "重点顧客", " "],
+    });
+
+    expect(customer).toMatchObject({
+      name: "山田 花子",
+      email: "hanako.yamada@example.jp",
+      rank: "A",
+      status: "follow-up",
+      tags: ["重点顧客", "東京"],
+    });
+    expect(directory.searchCustomers("花子")[0]?.id).toBe("customer-1");
+  });
+
+  it("必須項目が空の顧客情報は更新しない", () => {
+    const directory = createDirectory();
+    const customer = directory.getCustomer("customer-1");
+    if (!customer) throw new Error("テスト対象の顧客が見つかりません。");
+
+    expect(() =>
+      directory.updateCustomer({
+        ...customer,
+        customerId: "customer-1",
+        name: " ",
+      }),
+    ).toThrow("氏名を入力してください。");
+    expect(directory.getCustomer("customer-1")?.name).toBe("山田 太郎");
+  });
+
+  it("顧客を削除できる", () => {
+    const directory = createDirectory();
+
+    directory.deleteCustomer("customer-2");
+
+    expect(directory.getCustomer("customer-2")).toBeUndefined();
+    expect(directory.searchCustomers("")).toHaveLength(5);
+  });
+
+  it("存在しない顧客は削除できない", () => {
+    expect(() => createDirectory().deleteCustomer("unknown")).toThrow(
+      "顧客が見つかりませんでした。",
+    );
+  });
 });

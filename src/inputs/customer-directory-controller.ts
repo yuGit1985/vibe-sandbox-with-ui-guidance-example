@@ -1,4 +1,4 @@
-import type { Customer } from "@/ports/customer-repository";
+import type { Customer, CustomerUpdate } from "@/ports/customer-repository";
 import type { CustomerDirectory } from "@/usecases/customer-directory";
 import type { SendCustomerEmail } from "@/usecases/send-customer-email";
 
@@ -27,6 +27,14 @@ export class CustomerDirectoryController {
       createdAt: this.now().toISOString(),
       noteId: this.createId(),
     });
+  }
+
+  update(customerId: string, details: CustomerUpdate): Customer {
+    return this.directory.updateCustomer({ customerId, ...details });
+  }
+
+  delete(customerId: string): void {
+    this.directory.deleteCustomer(customerId);
   }
 
   sendEmail(customerId: string, subject: string, body: string): void {
