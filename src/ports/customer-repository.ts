@@ -1,4 +1,5 @@
 export type CustomerStatus = "active" | "follow-up" | "inactive";
+type CustomerRank = "S" | "A" | "B" | "C";
 
 export type CustomerNote = {
   id: string;
@@ -16,6 +17,7 @@ export type Customer = {
   title: string;
   email: string;
   phone: string;
+  rank: CustomerRank;
   status: CustomerStatus;
   lastContactAt: string;
   registeredAt: string;

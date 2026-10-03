@@ -137,6 +137,14 @@ function CustomerDetail({
       </div>
       <div className="customer-meta">
         <div>
+          <small>顧客ランク</small>
+          <strong>
+            <span className={`rank-badge rank-badge--${customer.rank}`}>
+              {customer.rank}
+            </span>
+          </strong>
+        </div>
+        <div>
           <small>登録日</small>
           <strong>{formatFullDate(customer.registeredAt)}</strong>
         </div>

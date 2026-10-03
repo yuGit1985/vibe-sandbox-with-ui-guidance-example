@@ -17,6 +17,18 @@ describe("CustomerDirectory", () => {
     expect(customers[0]?.name).toBe("佐々木 彩");
   });
 
+  it("顧客のランクを取得できる", () => {
+    const customers = createDirectory().searchCustomers("");
+    expect(customers.map(({ rank }) => rank)).toEqual([
+      "S",
+      "A",
+      "A",
+      "B",
+      "C",
+      "B",
+    ]);
+  });
+
   it("顧客にメモを追加できる", () => {
     const customer = createDirectory().addNote({
       customerId: "customer-3",

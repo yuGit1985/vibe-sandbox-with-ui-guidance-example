@@ -42,6 +42,7 @@ export function CustomerList({
         <thead>
           <tr>
             <th>顧客</th>
+            <th>ランク</th>
             <th>ステータス</th>
             <th>最終接点</th>
             <th aria-label="操作" />
@@ -66,6 +67,11 @@ export function CustomerList({
                     <small>{customer.company}</small>
                   </span>
                 </button>
+              </td>
+              <td>
+                <span className={`rank-badge rank-badge--${customer.rank}`}>
+                  {customer.rank}
+                </span>
               </td>
               <td>
                 <span className={`status status--${customer.status}`}>
