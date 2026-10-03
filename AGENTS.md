@@ -41,3 +41,14 @@ This repository is for executable business prototypes, not production-ready appl
 
 - Run `pnpm check` before finishing.
 - If Biome fails only because of formatting, run `pnpm lint:fix` and then run `pnpm check` again.
+
+### UI structure
+
+- Put screen-level composition in `src/ui/screens`.
+  Screens may compose multiple UI features and generic components.
+
+- Put independent user interactions in `src/ui/features`.
+  A feature represents a user action or interaction that can change independently.
+
+- Put reusable, feature-agnostic UI parts in `src/ui/components`.
+  Components must not depend on specific features or screens.
