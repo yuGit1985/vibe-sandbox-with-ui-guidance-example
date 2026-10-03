@@ -1,18 +1,19 @@
-"use client";
+import { demoCredentials } from "@/fakes/fixed-authentication-gateway";
+import { getAuthenticatedUser } from "@/inputs/authentication-actions";
+import { CustomerDirectoryEntry } from "@/inputs/customer-directory-entry";
+import { LoginScreen } from "@/ui/screens/login-screen";
 
-import { useState } from "react";
-import { InMemoryCustomerRepository } from "@/fakes/in-memory-customer-repository";
-import { CustomerDirectoryController } from "@/inputs/customer-directory-controller";
-import { CustomerDirectoryScreen } from "@/ui/screens/customer-directory-screen";
-import { CustomerDirectory } from "@/usecases/customer-directory";
+export default async function Home() {
+  const user = await getAuthenticatedUser();
 
-export default function Home() {
-  const [controller] = useState(
-    () =>
-      new CustomerDirectoryController(
-        new CustomerDirectory(new InMemoryCustomerRepository()),
-      ),
-  );
+  if (!user) {
+    return (
+      <LoginScreen
+        demoEmail={demoCredentials.email}
+        demoPassword={demoCredentials.password}
+      />
+    );
+  }
 
-  return <CustomerDirectoryScreen controller={controller} />;
+  return <CustomerDirectoryEntry user={user} />;
 }

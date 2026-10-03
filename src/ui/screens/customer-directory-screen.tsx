@@ -2,14 +2,19 @@
 
 import { useMemo, useState } from "react";
 import type { CustomerDirectoryController } from "@/inputs/customer-directory-controller";
+import type { AuthenticatedUser } from "@/ports/authentication-gateway";
 import type { Customer } from "@/ports/customer-repository";
 import { Avatar } from "@/ui/components/avatar";
 import { Icon } from "@/ui/components/icon";
+import { LogoutButton } from "@/ui/features/authentication/logout-button";
 import { CustomerList } from "@/ui/features/customer-list/customer-list";
 import { CustomerNotes } from "@/ui/features/customer-notes/customer-notes";
 import { CustomerSearch } from "@/ui/features/customer-search/customer-search";
 
-type CustomerDirectoryScreenProps = { controller: CustomerDirectoryController };
+type CustomerDirectoryScreenProps = {
+  controller: CustomerDirectoryController;
+  user: AuthenticatedUser;
+};
 
 const formatFullDate = (value: string) =>
   new Intl.DateTimeFormat("ja-JP", {
@@ -19,7 +24,7 @@ const formatFullDate = (value: string) =>
     timeZone: "Asia/Tokyo",
   }).format(new Date(`${value}T00:00:00+09:00`));
 
-function Sidebar() {
+function Sidebar({ user }: { user: AuthenticatedUser }) {
   return (
     <aside className="sidebar">
       <div className="brand">
@@ -56,12 +61,12 @@ function Sidebar() {
         </a>
       </nav>
       <div className="sidebar-profile">
-        <Avatar color="#64748b" name="佐藤 美咲" size="small" />
+        <Avatar color="#64748b" name={user.name} size="small" />
         <span>
-          <strong>佐藤 美咲</strong>
-          <small>セールスマネージャー</small>
+          <strong>{user.name}</strong>
+          <small>{user.role}</small>
         </span>
-        <Icon name="more" size={18} />
+        <LogoutButton />
       </div>
     </aside>
   );
@@ -172,6 +177,7 @@ function CustomerDetail({
 
 export function CustomerDirectoryScreen({
   controller,
+  user,
 }: CustomerDirectoryScreenProps) {
   const initialCustomers = useMemo(() => controller.search(""), [controller]);
   const [query, setQuery] = useState("");
@@ -202,7 +208,7 @@ export function CustomerDirectoryScreen({
 
   return (
     <div className="app-shell">
-      <Sidebar />
+      <Sidebar user={user} />
       <div className="workspace">
         <header className="topbar">
           <div className="mobile-brand">
@@ -223,7 +229,8 @@ export function CustomerDirectoryScreen({
               <Icon name="bell" size={20} />
               <i />
             </button>
-            <Avatar color="#64748b" name="佐藤 美咲" size="small" />
+            <Avatar color="#64748b" name={user.name} size="small" />
+            <LogoutButton />
           </div>
         </header>
         <main className="page-content" id="customers">

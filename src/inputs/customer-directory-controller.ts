@@ -4,6 +4,7 @@ import type { CustomerDirectory } from "@/usecases/customer-directory";
 export class CustomerDirectoryController {
   constructor(
     private readonly directory: CustomerDirectory,
+    private readonly author: string,
     private readonly now: () => Date = () => new Date(),
     private readonly createId: () => string = () => crypto.randomUUID(),
   ) {}
@@ -20,7 +21,7 @@ export class CustomerDirectoryController {
     return this.directory.addNote({
       customerId,
       body: rawBody,
-      author: "佐藤 美咲",
+      author: this.author,
       createdAt: this.now().toISOString(),
       noteId: this.createId(),
     });

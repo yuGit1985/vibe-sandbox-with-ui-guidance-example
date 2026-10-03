@@ -16,6 +16,17 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Demo authentication
+
+The login form is prefilled with the prototype account:
+
+- Email: `misaki.sato@knot.example.jp`
+- Password: `knot-demo`
+
+Authentication uses a fixed in-memory adapter and an HTTP-only session cookie. It is
+intended only for this executable prototype and does not provide production user or
+session storage.
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.

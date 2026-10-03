@@ -1,10 +1,13 @@
 type IconName =
+  | "arrow-right"
   | "bell"
   | "building"
   | "calendar"
   | "chevron"
   | "dashboard"
   | "mail"
+  | "lock"
+  | "logout"
   | "memo"
   | "more"
   | "people"
@@ -19,6 +22,7 @@ type IconProps = {
 };
 
 const paths: Record<IconName, React.ReactNode> = {
+  "arrow-right": <path d="M5 12h14m-6-6 6 6-6 6" />,
   bell: <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4" />,
   building: <path d="M4 21V4h11v17M15 9h5v12M8 8h3m-3 4h3m-3 4h3M2 21h20" />,
   calendar: (
@@ -29,6 +33,10 @@ const paths: Record<IconName, React.ReactNode> = {
     <path d="M4 13h6V4H4v9Zm0 7h6v-4H4v4Zm10 0h6v-9h-6v9Zm0-12h6V4h-6v4Z" />
   ),
   mail: <path d="M3 5h18v14H3V5Zm0 1 9 7 9-7" />,
+  lock: <path d="M5 10h14v11H5V10Zm3 0V7a4 4 0 0 1 8 0v3m-4 4v3" />,
+  logout: (
+    <path d="M10 17l5-5-5-5m5 5H3m12-9h5a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1h-5" />
+  ),
   memo: (
     <path d="M6 3h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm3 5h6m-6 4h6m-6 4h4" />
   ),
